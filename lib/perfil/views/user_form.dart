@@ -8,8 +8,23 @@ class UserForm extends StatelessWidget {
   final _form = GlobalKey<FormState>();
 
   final Map<String, String> _formData = {};
+
+  void _loadFormData(Perfil perfil){
+    if(perfil != null) {
+      _formData ['id'] = perfil.id;
+      _formData ['name'] = perfil.name;
+      _formData ['email'] = perfil.email;
+      _formData ['avatarUrl'] = perfil.avatarUrl;
+    }
+  }
   @override
   Widget build(BuildContext context) {
+
+    final Perfil perfil = ModalRoute.of(context).settings.arguments;
+
+    _loadFormData(perfil);
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Formulário de Perfil"),
@@ -41,6 +56,7 @@ class UserForm extends StatelessWidget {
           child: Column(
             children: <Widget>[
             TextFormField(
+              initialValue: _formData['name'],
               decoration: InputDecoration(
                   labelText: 'Nome'),
               validator: (value){
@@ -55,11 +71,13 @@ class UserForm extends StatelessWidget {
               onSaved: (value) => _formData['name'] = value,
             ),
               TextFormField(
+                initialValue: _formData['email'],
                 decoration: InputDecoration(
                     labelText: 'Email'),
                 onSaved: (value) => _formData['email'] = value,
               ),
               TextFormField(
+                initialValue: _formData['avatarUrl'],
                 decoration: InputDecoration(
                     labelText: 'Url do Avatar'),
                 onSaved: (value) => _formData['avatarUrl'] = value,

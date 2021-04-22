@@ -1,6 +1,8 @@
 import 'package:app_cr/perfil/routes/routes.dart';
 import 'package:app_cr/perfil/user_perfil.dart';
+import 'package:app_cr/provider/perfis.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PerfilTile extends StatelessWidget {
 
@@ -34,7 +36,31 @@ class PerfilTile extends StatelessWidget {
             IconButton(
               icon: Icon (Icons.delete,
               color: Colors.red,),
-              onPressed: (){}
+              onPressed: (){
+                showDialog(context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Excluir Usuário'),
+                      content: Text('Tem certeza que quer excluir este perfil?'),
+                      actions:<Widget>
+                      [
+                        FlatButton(
+                          child: Text ('Não'),
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            },
+
+                        ),
+                        FlatButton(
+                          child: Text ('Sim'),
+                          onPressed: (){
+                            Provider.of<Perfis>(context, listen: false).remove(user);
+                            Navigator.of(context).pop();
+                          },
+
+                        ),
+                      ],
+                    ));
+              }
            ),
 
           ],
